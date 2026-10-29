@@ -29,11 +29,11 @@ export function createApp(deps = {}) {
   // Security headers, CORS, body size limit
   setupSecurityMiddleware(app);
 
+  // Health route (unthrottled)
+  app.use('/api', healthRouter);
+
   // Global rate limiter
   app.use('/api', generalLimiter);
-
-  // Health route
-  app.use('/api', healthRouter);
 
   // Intake routes
   app.use('/api/intake', createIntakeRouter(db, llmService));

@@ -6,7 +6,7 @@ import { config } from '../config/index.js';
  */
 export const generalLimiter = rateLimit({
   windowMs: config.rateLimit.generalWindowMs,
-  max: config.rateLimit.generalMax,
+  max: config.env === 'development' ? 10000 : config.rateLimit.generalMax,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -22,7 +22,7 @@ export const generalLimiter = rateLimit({
  */
 export const llmLimiter = rateLimit({
   windowMs: config.rateLimit.generalWindowMs,
-  max: config.rateLimit.llmMax,
+  max: config.env === 'development' ? 500 : config.rateLimit.llmMax,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
