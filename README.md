@@ -277,7 +277,7 @@ npm test
    # API Keys (Optional if LLM_PROVIDER=mock)
    GEMINI_API_KEY=
    OPENROUTER_API_KEY=
-   LLM_MODEL=gemini-1.5-flash
+   GEMINI_MODEL=gemini-3.5-flash-lite
    ```
 
 3. **Run Development Servers**:

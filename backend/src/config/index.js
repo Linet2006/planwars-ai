@@ -17,7 +17,7 @@ export const config = {
   llm: {
     provider: process.env.LLM_PROVIDER || 'mock', // 'gemini' | 'openrouter' | 'mock'
     geminiApiKey: process.env.GEMINI_API_KEY || '',
-    geminiModel: process.env.GEMINI_MODEL || 'gemini-1.5-flash',
+    geminiModel: process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite',
     openRouterApiKey: process.env.OPENROUTER_API_KEY || '',
     openRouterModel: process.env.OPENROUTER_MODEL || 'google/gemini-flash-1.5'
   },
