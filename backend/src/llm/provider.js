@@ -108,7 +108,8 @@ export class GeminiProvider extends BaseLLMProvider {
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(15000)
     });
 
     if (!res.ok) {
@@ -147,7 +148,8 @@ export class OpenRouterProvider extends BaseLLMProvider {
         messages: [{ role: 'user', content: prompt }],
         response_format: { type: 'json_object' },
         temperature: 0.2
-      })
+      }),
+      signal: AbortSignal.timeout(15000)
     });
 
     if (!res.ok) {

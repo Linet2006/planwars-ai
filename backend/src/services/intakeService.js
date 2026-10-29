@@ -80,11 +80,13 @@ export async function processIntakeMessage(db, payload, { llmService } = {}) {
 export async function initializeCompletePlan(db, eventData, { llmService } = {}) {
   const event = createEvent(db, eventData);
 
-  // Initialize Budget, Timeline, Vendors, and Ideas concurrently or sequentially
-  const budget = await generateAIBudgetAllocation(db, event.id, { llmService, overwrite: true });
-  const timeline = await generateAITimeline(db, event.id, { llmService, overwrite: true });
-  const vendors = await generateAIVendorCategories(db, event.id, { llmService });
-  const ideas = await generatePersonalizedIdeas(db, event.id, { llmService });
+  // Initialize Budget, Timeline, Vendors, and Ideas concurrently in parallel
+  const [budget, timeline, vendors, ideas] = await Promise.all([
+    generateAIBudgetAllocation(db, event.id, { llmService, overwrite: true }),
+    generateAITimeline(db, event.id, { llmService, overwrite: true }),
+    generateAIVendorCategories(db, event.id, { llmService }),
+    generatePersonalizedIdeas(db, event.id, { llmService })
+  ]);
 
   return {
     event,
