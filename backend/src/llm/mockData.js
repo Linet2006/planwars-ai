@@ -107,3 +107,4 @@ export const MOCK_RESPONSES = Object.freeze({
     ]
   }
 });
+

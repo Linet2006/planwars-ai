@@ -44,3 +44,4 @@ export function setupSecurityMiddleware(app) {
   app.use(express.json({ limit: config.bodyLimit }));
   app.use(express.urlencoded({ extended: true, limit: config.bodyLimit }));
 }
+

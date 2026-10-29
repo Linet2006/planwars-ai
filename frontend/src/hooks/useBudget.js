@@ -96,3 +96,4 @@ export function useBudget(eventId) {
     generateAIBudget
   };
 }
+

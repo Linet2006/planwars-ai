@@ -23,3 +23,4 @@ export function errorHandler(err, req, res, _next) {
 
   res.status(statusCode).json(response);
 }
+

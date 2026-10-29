@@ -240,3 +240,4 @@ export async function generateAIVendorCategories(db, eventId, { llmService } = {
 
   return getVendorsWithDetails(db, eventId);
 }
+

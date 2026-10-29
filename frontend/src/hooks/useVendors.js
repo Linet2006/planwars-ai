@@ -98,3 +98,4 @@ export function useVendors(eventId) {
     compareQuote
   };
 }
+

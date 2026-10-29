@@ -10,3 +10,4 @@ export function generateHash(content) {
   const normalized = typeof content === 'string' ? content : JSON.stringify(content);
   return crypto.createHash('sha256').update(normalized).digest('hex');
 }
+

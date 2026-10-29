@@ -96,3 +96,4 @@ describe('ReplanModal Component (Challenge Replan Scenario)', () => {
     expect(screen.getByText('Apply Strategy')).toBeInTheDocument();
   });
 });
+

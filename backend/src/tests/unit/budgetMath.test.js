@@ -68,3 +68,4 @@ describe('Budget Math Utility (Deterministic Calculations)', () => {
     expect(result[1].estimated_amount).toBe(750000);
   });
 });
+

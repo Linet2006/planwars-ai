@@ -45,3 +45,4 @@ describe('Plan Diff Utility (Constraint & Budget Changes)', () => {
     expect(decorDiff.percentChange).toBe(-28.6);
   });
 });
+

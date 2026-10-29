@@ -55,3 +55,4 @@ export function formatDateDDMMYYYY(dateStr) {
   const year = d.getFullYear();
   return `${day}/${month}/${year}`;
 }
+

@@ -111,3 +111,4 @@
 ## Scene 9: Production Quality Summary
 **On-Screen Caption:**
 > "PlanWars AI: 63 Passing Tests • Zero Vulnerabilities • 100% Parameterized SQLite • Under 181 kB Bundle • WCAG AA Accessible."
+

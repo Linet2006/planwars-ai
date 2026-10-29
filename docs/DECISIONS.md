@@ -17,3 +17,4 @@
 | **ADR-013** | Transparency & Trust | Explicit visual distinction between `AI Estimate*` and `Confirmed Actual Cost` | Prevents users from mistaking AI guesses for contracted vendor fees or finalized quotes. |
 | **ADR-014** | Code Quality & Style | Zero-tolerance ESLint + Prettier, max 40-line pure functions, files < 300 lines | Guarantees clean, maintainable, modular codebase with zero lint warnings. |
 | **ADR-015** | Testing Strategy | Dual-suite Vitest: Backend integration tests for every endpoint + unit tests for pure logic; Frontend RTL tests for user flows | Eliminates previous testing score weakness (72) by verifying both API contracts and UI interactions. |
+

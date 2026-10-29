@@ -164,3 +164,4 @@ export async function generateAIBudgetAllocation(db, eventId, { llmService, over
     summary: calculateBudgetSummary(event.budget_total, items, event.guest_count)
   };
 }
+

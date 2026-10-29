@@ -92,3 +92,4 @@ export function shiftDate(baseDateISO, daysDelta) {
 export function calculateBackScheduledDate(eventDateISO, daysBefore) {
   return shiftDate(eventDateISO, -Math.abs(daysBefore));
 }
+

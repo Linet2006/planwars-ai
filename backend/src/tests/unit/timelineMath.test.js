@@ -70,3 +70,4 @@ describe('Timeline Math Utility (Dependencies & Cascading Delays)', () => {
     expect(next3.map((t) => t.id)).toEqual(['2', '3', '4']);
   });
 });
+

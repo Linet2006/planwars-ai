@@ -37,3 +37,4 @@ export function sanitizeObject(obj) {
   }
   return obj;
 }
+

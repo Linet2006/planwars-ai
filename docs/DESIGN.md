@@ -429,3 +429,4 @@ erDiagram
 | `POST` | `/api/events/:id/replan/evaluate` | Evaluate change & get trade-off options | `{ guestCount, budgetTotal, eventDate }` | `{ options: [ { title, description, budgetDiff, timelineDiff, consequences } ] }` |
 | `POST` | `/api/events/:id/replan/apply` | Apply selected trade-off option | `{ optionId, guestCount, budgetTotal, eventDate, allocations, taskAdjustments }` | `{ updatedEvent, budget, timeline }` |
 | `POST` | `/api/events/:id/chat` | Context-aware event assistant | `{ message }` | `{ reply }` |
+

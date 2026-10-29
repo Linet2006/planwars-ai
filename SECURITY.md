@@ -47,3 +47,4 @@ And verifies output strictly via Zod schema (`QuoteComparisonSchema`). If the ou
 
 ## 3. Reporting Security Issues
 For responsible disclosure or vulnerability reports, please open a confidential advisory or contact the maintainers.
+

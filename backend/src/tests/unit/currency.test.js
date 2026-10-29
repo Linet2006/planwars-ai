@@ -35,3 +35,4 @@ describe('Currency Utility (Indian Rupee INR)', () => {
     expect(parseINR('invalid')).toBe(0);
   });
 });
+

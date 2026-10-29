@@ -153,3 +153,4 @@ describe('API Integration Tests (Core: Health, Intake, Events, Budget)', () => {
     expect(res.body.summary).toBeDefined();
   });
 });
+

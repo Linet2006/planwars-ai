@@ -340,3 +340,4 @@ npm test
 - [**docs/PROMPT_LOG.md**](file:///docs/PROMPT_LOG.md): System prompt definitions, input delimiters, and temperature settings.
 - [**docs/LINKEDIN_POST.md**](file:///docs/LINKEDIN_POST.md): Public launch post highlighting lessons from previous evaluations.
 - [**docs/VIDEO_SCRIPT.md**](file:///docs/VIDEO_SCRIPT.md): 2-minute walkthrough script demonstrating the core differentiator.
+

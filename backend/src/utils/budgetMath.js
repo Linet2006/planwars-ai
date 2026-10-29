@@ -116,3 +116,4 @@ export function deriveAllocationsFromPercentages(budgetTotal, categories = []) {
 
   return results;
 }
+

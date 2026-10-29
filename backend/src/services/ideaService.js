@@ -194,3 +194,4 @@ Output JSON schema format:
 
   return db.prepare('SELECT * FROM ideas WHERE id = ?').get(newId);
 }
+

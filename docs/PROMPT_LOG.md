@@ -57,3 +57,4 @@ Your calculations must fit real budget numbers. Always respond strictly in valid
   Present strategic choices with clear consequences so the user stays in control.
   ```
   Generates targeted strategies (e.g., "Menu Optimization & Smart Favors" vs "Format Pivot to Interactive Stalls") with direct consequences and timeline adjustments.
+

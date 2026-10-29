@@ -94,3 +94,4 @@ export const api = {
   evaluateReplan: (eventId, data) => request(`/events/${eventId}/replan/evaluate`, { method: 'POST', body: JSON.stringify(data) }),
   applyReplan: (eventId, data) => request(`/events/${eventId}/replan/apply`, { method: 'POST', body: JSON.stringify(data) })
 };
+

@@ -170,3 +170,4 @@ export function getEventFullPlan(db, id) {
     ideasCount: ideas.length
   };
 }
+

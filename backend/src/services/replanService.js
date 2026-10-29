@@ -179,3 +179,4 @@ export function applyReplanOption(db, eventId, payload) {
     tasksCount: updatedTasks.length
   };
 }
+

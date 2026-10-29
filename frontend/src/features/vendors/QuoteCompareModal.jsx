@@ -77,3 +77,4 @@ QuoteCompareModal.propTypes = {
   loading: PropTypes.bool,
   defaultVendorName: PropTypes.string
 };
+

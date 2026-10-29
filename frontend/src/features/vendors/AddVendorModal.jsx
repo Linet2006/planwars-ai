@@ -70,3 +70,4 @@ AddVendorModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired
 };
+
