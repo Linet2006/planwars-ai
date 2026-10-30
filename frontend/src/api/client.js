@@ -35,8 +35,8 @@ async function request(endpoint, options = {}) {
 
     return data;
   } catch (err) {
-    if (err.name === 'TypeError' && err.message.includes('fetch')) {
-      throw new Error('Unable to connect to the server. Please check your network connection.');
+    if (err.name === 'TypeError' && err.message.toLowerCase().includes('fetch')) {
+      throw new Error(`Unable to connect to backend server (${err.message}). Please ensure the backend is running on port 5000.`);
     }
     throw err;
   }

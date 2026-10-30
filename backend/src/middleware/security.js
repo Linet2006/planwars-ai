@@ -28,8 +28,13 @@ export function setupSecurityMiddleware(app) {
   app.use(
     cors({
       origin: (origin, callback) => {
-        // Allow requests with no origin (e.g. mobile apps or curl) in development
-        if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+        // In development, allow any localhost or 127.0.0.1 port, or any listed origin
+        if (
+          !origin ||
+          allowedOrigins.includes(origin) ||
+          allowedOrigins.includes('*') ||
+          (config.env === 'development' && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin))
+        ) {
           return callback(null, true);
         }
         return callback(new Error('CORS policy: Not allowed by Access-Control-Allow-Origin'));

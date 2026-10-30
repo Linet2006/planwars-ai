@@ -128,17 +128,18 @@ export function IntakeChat({ onPlanInitialized }) {
             <button
               key={idx}
               type="button"
+              disabled={loading}
               onClick={() => {
                 setPartialData(p.data);
                 handleInitializePlan(p.data);
               }}
               style={{
-                backgroundColor: '#ffffff',
+                backgroundColor: loading ? '#f0f0f0' : '#ffffff',
                 border: '1px solid #1677ff',
-                color: '#1677ff',
+                color: loading ? '#8c8c8c' : '#1677ff',
                 padding: '0.45rem 0.85rem',
                 borderRadius: '6px',
-                cursor: 'pointer',
+                cursor: loading ? 'not-allowed' : 'pointer',
                 fontSize: '0.85rem',
                 fontWeight: 500
               }}

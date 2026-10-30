@@ -130,7 +130,14 @@ export function AppContent() {
 
         {!currentEvent ? (
           // Guided Intake onboarding view
-          <IntakeChat onPlanInitialized={(plan) => initializePlan(plan.event)} />
+          <IntakeChat
+            onPlanInitialized={async (plan) => {
+              if (plan?.event?.id) {
+                await loadEventPlan(plan.event.id);
+                await fetchEvents();
+              }
+            }}
+          />
         ) : (
           <div>
             {/* Tab Navigation List */}
