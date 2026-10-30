@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useCallback, useContext, useMemo, useReducer } from 'react';
 
 const initialState = {
   currentEvent: null,
@@ -47,17 +47,39 @@ export function EventProvider({ children, initialEvent = null }) {
     currentEvent: initialEvent
   });
 
-  const value = {
-    ...state,
-    setLoading: (isLoading) => dispatch({ type: 'SET_LOADING', payload: isLoading }),
-    setError: (error) => dispatch({ type: 'SET_ERROR', payload: error }),
-    setCurrentEvent: (event) => dispatch({ type: 'SET_CURRENT_EVENT', payload: event }),
-    setFullPlan: (plan) => dispatch({ type: 'SET_FULL_PLAN', payload: plan }),
-    setActiveTab: (tab) => dispatch({ type: 'SET_ACTIVE_TAB', payload: tab }),
-    setReplanOpen: (isOpen) => dispatch({ type: 'SET_REPLAN_OPEN', payload: isOpen }),
-    setNotification: (notif) => dispatch({ type: 'SET_NOTIFICATION', payload: notif }),
-    clearNotification: () => dispatch({ type: 'CLEAR_NOTIFICATION' })
-  };
+  const setLoading = useCallback((isLoading) => dispatch({ type: 'SET_LOADING', payload: isLoading }), []);
+  const setError = useCallback((error) => dispatch({ type: 'SET_ERROR', payload: error }), []);
+  const setCurrentEvent = useCallback((event) => dispatch({ type: 'SET_CURRENT_EVENT', payload: event }), []);
+  const setFullPlan = useCallback((plan) => dispatch({ type: 'SET_FULL_PLAN', payload: plan }), []);
+  const setActiveTab = useCallback((tab) => dispatch({ type: 'SET_ACTIVE_TAB', payload: tab }), []);
+  const setReplanOpen = useCallback((isOpen) => dispatch({ type: 'SET_REPLAN_OPEN', payload: isOpen }), []);
+  const setNotification = useCallback((notif) => dispatch({ type: 'SET_NOTIFICATION', payload: notif }), []);
+  const clearNotification = useCallback(() => dispatch({ type: 'CLEAR_NOTIFICATION' }), []);
+
+  const value = useMemo(
+    () => ({
+      ...state,
+      setLoading,
+      setError,
+      setCurrentEvent,
+      setFullPlan,
+      setActiveTab,
+      setReplanOpen,
+      setNotification,
+      clearNotification
+    }),
+    [
+      state,
+      setLoading,
+      setError,
+      setCurrentEvent,
+      setFullPlan,
+      setActiveTab,
+      setReplanOpen,
+      setNotification,
+      clearNotification
+    ]
+  );
 
   return <EventContext.Provider value={value}>{children}</EventContext.Provider>;
 }

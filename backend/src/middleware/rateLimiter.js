@@ -6,9 +6,10 @@ import { config } from '../config/index.js';
  */
 export const generalLimiter = rateLimit({
   windowMs: config.rateLimit.generalWindowMs,
-  max: config.env === 'development' ? 10000 : config.rateLimit.generalMax,
+  max: config.rateLimit.generalMax,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => config.env === 'development',
   message: {
     status: 429,
     error: 'Too Many Requests',
@@ -22,9 +23,10 @@ export const generalLimiter = rateLimit({
  */
 export const llmLimiter = rateLimit({
   windowMs: config.rateLimit.generalWindowMs,
-  max: config.env === 'development' ? 500 : config.rateLimit.llmMax,
+  max: config.rateLimit.llmMax,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => config.env === 'development',
   message: {
     status: 429,
     error: 'Too Many Requests',

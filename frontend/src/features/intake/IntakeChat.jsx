@@ -82,10 +82,12 @@ export function IntakeChat({ onPlanInitialized }) {
       if (res.planPreview) {
         setPartialData((prev) => ({ ...prev, ...res.planPreview }));
       }
-    } catch {
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Intake chat error:', err);
       setMessages((prev) => [
         ...prev,
-        { sender: 'assistant', content: 'Connection glitch. Please continue or select a preset below.' }
+        { sender: 'assistant', content: err.message || 'Connection glitch. Please try sending again or select a preset.' }
       ]);
     } finally {
       setLoading(false);
