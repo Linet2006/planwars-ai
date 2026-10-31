@@ -49,7 +49,7 @@ export function AppContent() {
     setReplanOpen
   } = useEventContext();
 
-  const { eventsList, fetchEvents, loadEventPlan, initializePlan } = useEventPlan();
+  const { eventsList, fetchEvents, loadEventPlan } = useEventPlan();
 
   useEffect(() => {
     fetchEvents();

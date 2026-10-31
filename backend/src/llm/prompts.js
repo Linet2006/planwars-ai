@@ -15,26 +15,28 @@ export { SYSTEM_GUARDRAIL };
 export function buildIntakePrompt({ conversationHistory, partialData, currentMessage }) {
   return `${SYSTEM_GUARDRAIL}
 
-GOAL: Conduct a guided intake conversation to plan an event.
-Event Types: wedding (100-500 guests, multiple ceremonies), birthday (kids / milestone), community (societies / festivals).
-Collect if missing: 1. Occasion 2. Budget (INR) 3. Guest Count 4. Date 5. Atmosphere/Must-haves 6. Culture.
-Ask only for missing information. If essential info is provided, set readyToGenerate: true.
+GOAL: Guided intake for Indian weddings, birthdays, and community events.
+EMPATHY: The user may be a complete beginner. Guide gently, do not interrogate.
+RULES:
+1. MANDATORY: Occasion, Budget in INR, Guest Count, Date.
+2. OPTIONAL: Atmosphere, Theme, Culture. If user says "no", "anything", "none", "flexible", or "you decide", NEVER ask again! Set sensible defaults (e.g. "Warm hospitality & delicious dinner").
+3. CONFIRMATION: If user says "yes", "proceed", "ok", or if the 4 mandatory fields are known, set readyToGenerate: true immediately.
+4. BUDGET: If budget is modest (e.g. ₹500/guest), suggest suitable formats (home dining / cafe) rather than demanding more money.
+5. NO REPETITION: Never ask for information already provided or dismissed in History.
 
 <DATA>
 Current Plan State:
 ${JSON.stringify(partialData || {}, null, 2)}
-
 Conversation History:
 ${(conversationHistory || []).map((m) => `${m.sender}: ${m.content}`).join('\n')}
-
 Latest User Message:
 ${currentMessage}
 </DATA>
 
 Output JSON schema format:
 {
-  "reply": "string (polite, direct question or confirmation)",
-  "missingFields": ["budget", "guestCount"],
+  "reply": "string (warm, proactive. If ready, invite them to view the plan)",
+  "missingFields": ["budgetTotal"],
   "readyToGenerate": boolean,
   "planPreview": {
     "title": "string",

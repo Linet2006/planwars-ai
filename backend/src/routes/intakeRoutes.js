@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { llmLimiter } from '../middleware/rateLimiter.js';
 import { validateRequest } from '../middleware/validation.js';
 import * as intakeService from '../services/intakeService.js';
+import { normalizeDateToISO } from '../utils/date.js';
 
 export function createIntakeRouter(db, llmService) {
   const router = Router();
@@ -10,12 +11,20 @@ export function createIntakeRouter(db, llmService) {
   const IntakeChatSchema = z.object({
     eventId: z.string().optional(),
     message: z.string().min(1, 'Message is required'),
+    history: z
+      .array(
+        z.object({
+          sender: z.string(),
+          content: z.string()
+        })
+      )
+      .optional(),
     partialData: z
       .object({
         title: z.string().optional(),
-        eventType: z.enum(['wedding', 'birthday', 'community']).optional(),
-        budgetTotal: z.number().nonnegative().optional(),
-        guestCount: z.number().int().positive().optional(),
+        eventType: z.enum(['wedding', 'birthday', 'community', '']).optional(),
+        budgetTotal: z.union([z.number(), z.string()]).optional().nullable(),
+        guestCount: z.union([z.number(), z.string()]).optional().nullable(),
         eventDate: z.string().optional(),
         location: z.string().optional(),
         priorities: z.string().optional()
@@ -24,11 +33,11 @@ export function createIntakeRouter(db, llmService) {
   });
 
   const InitializePlanSchema = z.object({
-    title: z.string().min(1),
-    eventType: z.enum(['wedding', 'birthday', 'community']),
-    budgetTotal: z.number().nonnegative(),
-    guestCount: z.number().int().positive(),
-    eventDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    title: z.string().min(1).optional(),
+    eventType: z.enum(['wedding', 'birthday', 'community']).default('birthday'),
+    budgetTotal: z.union([z.number(), z.string()]).transform((v) => Number(v) || 20000),
+    guestCount: z.union([z.number(), z.string()]).transform((v) => Number(v) || 20),
+    eventDate: z.string().optional(),
     location: z.string().optional(),
     culturalContext: z.string().optional(),
     priorities: z.string().optional()
@@ -47,7 +56,23 @@ export function createIntakeRouter(db, llmService) {
   // Initialize full plan from intake
   router.post('/initialize', llmLimiter, validateRequest({ body: InitializePlanSchema }), async (req, res, next) => {
     try {
-      const fullPlan = await intakeService.initializeCompletePlan(db, req.body, { llmService });
+      const rawDate = req.body.eventDate || '';
+      const eventDate = normalizeDateToISO(rawDate) || new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0];
+      const typeStr = req.body.eventType || 'birthday';
+      const title = req.body.title || `${typeStr.charAt(0).toUpperCase() + typeStr.slice(1)} Celebration`;
+
+      const fullPlan = await intakeService.initializeCompletePlan(
+        db,
+        {
+          ...req.body,
+          title,
+          eventType: typeStr,
+          eventDate,
+          location: req.body.location || 'India',
+          priorities: req.body.priorities || 'Warm hospitality & celebration'
+        },
+        { llmService }
+      );
       res.status(201).json(fullPlan);
     } catch (err) {
       next(err);

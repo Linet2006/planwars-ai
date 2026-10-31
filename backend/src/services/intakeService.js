@@ -6,6 +6,7 @@ import crypto from 'crypto';
 import { LLMService } from '../llm/llmService.js';
 import { buildIntakePrompt } from '../llm/prompts.js';
 import { IntakeChatSchema } from '../llm/schemas.js';
+import { normalizeDateToISO } from '../utils/date.js';
 import { generateAIBudgetAllocation } from './budgetService.js';
 import { createEvent } from './eventService.js';
 import { generatePersonalizedIdeas } from './ideaService.js';
@@ -18,15 +19,16 @@ import { generateAIVendorCategories } from './vendorService.js';
  * @param {object} payload
  * @param {string} [payload.eventId]
  * @param {string} payload.message
+ * @param {Array<{sender: string, content: string}>} [payload.history]
  * @param {object} [payload.partialData]
  * @param {LLMService} [options.llmService]
  * @returns {Promise<object>}
  */
 export async function processIntakeMessage(db, payload, { llmService } = {}) {
-  const { eventId, message, partialData = {} } = payload;
+  const { eventId, message, partialData = {}, history: clientHistory = [] } = payload;
 
-  let history = [];
-  if (eventId) {
+  let history = clientHistory;
+  if (eventId && (!history || history.length === 0)) {
     history = db.prepare('SELECT sender, content FROM messages WHERE event_id = ? ORDER BY created_at ASC').all(eventId);
   }
 
@@ -58,6 +60,11 @@ export async function processIntakeMessage(db, payload, { llmService } = {}) {
     schema: IntakeChatSchema,
     fallback
   });
+
+  if (aiResult?.planPreview?.eventDate) {
+    const iso = normalizeDateToISO(aiResult.planPreview.eventDate);
+    if (iso) aiResult.planPreview.eventDate = iso;
+  }
 
   if (eventId) {
     const now = new Date().toISOString();
