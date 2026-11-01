@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import express from 'express';
 import { getDatabase } from './db/index.js';
 import { LLMService } from './llm/llmService.js';
@@ -12,6 +15,9 @@ import { createIntakeRouter } from './routes/intakeRoutes.js';
 import { createReplanRouter } from './routes/replanRoutes.js';
 import { createTimelineRouter } from './routes/timelineRoutes.js';
 import { createVendorRouter } from './routes/vendorRoutes.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Creates and configures the Express application.
@@ -48,7 +54,17 @@ export function createApp(deps = {}) {
   app.use('/api/events/:id/ideas', createIdeaRouter(db, llmService));
   app.use('/api/events/:id/replan', createReplanRouter(db, llmService));
 
-  // 404 Handler
+  // Serve static assets from frontend build in production
+  const frontendDistPath = path.resolve(__dirname, '../../frontend/dist');
+  if (fs.existsSync(frontendDistPath)) {
+    app.use(express.static(frontendDistPath));
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api')) return next();
+      res.sendFile(path.join(frontendDistPath, 'index.html'));
+    });
+  }
+
+  // 404 Handler for unhandled routes
   app.use((_req, res) => {
     res.status(404).json({
       status: 404,
