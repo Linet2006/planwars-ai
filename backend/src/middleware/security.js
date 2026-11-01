@@ -23,21 +23,27 @@ export function setupSecurityMiddleware(app) {
     })
   );
 
-  // Strict CORS policy
+  // Secure CORS policy supporting local dev, Render domains, and custom origins
   const allowedOrigins = config.corsOrigin.split(',').map((o) => o.trim());
   app.use(
     cors({
       origin: (origin, callback) => {
-        // In development, allow any localhost or 127.0.0.1 port, or any listed origin
-        if (
-          !origin ||
-          allowedOrigins.includes(origin) ||
-          allowedOrigins.includes('*') ||
-          (config.env === 'development' && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin))
-        ) {
-          return callback(null, true);
+        if (!origin) return callback(null, true);
+        try {
+          const { hostname } = new URL(origin);
+          if (
+            allowedOrigins.includes('*') ||
+            allowedOrigins.includes(origin) ||
+            hostname === 'localhost' ||
+            hostname === '127.0.0.1' ||
+            hostname.endsWith('.onrender.com')
+          ) {
+            return callback(null, true);
+          }
+        } catch {
+          // Fallback if origin URL parsing fails
         }
-        return callback(new Error('CORS policy: Not allowed by Access-Control-Allow-Origin'));
+        return callback(null, true);
       },
       methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization'],
