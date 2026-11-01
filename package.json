@@ -2,6 +2,7 @@
   "name": "challenge5-root",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "workspaces": [
     "backend",
     "frontend"
